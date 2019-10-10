@@ -88,7 +88,7 @@ class NewVisitorTest(LiveServerTestCase):
         # 弗朗西斯输入一个新待办事项，新建一个清单
         # 他不像伊迪丝那样兴趣盎然
         inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys('But milk')
+        inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
 
         # 弗朗西斯获得了他的唯一URL
