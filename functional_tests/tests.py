@@ -7,14 +7,12 @@ from contextlib import contextmanager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.expected_conditions import staleness_of
 
-
-
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.maximize_window()
-        self.browser.implicitly_wait(8)
+        self.browser.implicitly_wait(30)
 
     def tearDown(self):
         self.browser.quit()
@@ -54,11 +52,13 @@ class NewVisitorTest(LiveServerTestCase):
         # 她按回车键后，被带到了一个新URL
         # 这个页面的待办事项清单中显示了“1: Buy peacock feathers”
         inputbox.send_keys(Keys.ENTER)
-        edith_list_url = self.browser.current_url
-        self.assertRegex(edith_list_url, '/lists/.+')
+        head_url = self.browser.current_url
         # 待办事项表格中显示了“1: Buy peacock feathers”
         with self.wait_for_page_load(timeout=10):
+            edith_list_url = self.browser.current_url
+            print(edith_list_url)
             self.check_for_row_in_list_table("1: Buy peacock feathers")
+        self.assertRegex(edith_list_url, head_url+'lists/.+')
 
         # 页面中又显示了一个文本框，可以输入其他的待办事项
         # 她输入了使用孔雀羽毛做假蝇)
@@ -92,9 +92,11 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
 
         # 弗朗西斯获得了他的唯一URL
-        francis_list_url = self.browser.current_url
-        self.assertRegex(francis_list_url, '/lists/.+')
-        self.assertNotEqual(francis_list_url, edith_list_url)
+        francis_head_url = self.browser.current_url
+        with self.wait_for_page_load(timeout=10):
+            francis_list_url = self.browser.current_url
+            self.assertRegex(francis_list_url, francis_head_url+'/lists/.+')
+            self.assertNotEqual(francis_list_url, edith_list_url)
 
         # 这个页面还是没有伊迪丝的清单
         page_text = self.browser.find_elements_by_tag_name('body').text
