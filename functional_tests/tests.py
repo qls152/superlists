@@ -11,8 +11,7 @@ class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.maximize_window()
-        self.browser.implicitly_wait(8)
+        self.browser.implicitly_wait(30)
 
     def tearDown(self):
         self.browser.quit()
@@ -104,6 +103,21 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('Buy milk', page_text)
 
         # 两人都很满意，去睡觉了
+
+    def test_layout_and_styling(self):
+        # 伊迪丝访问首页
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # 她看到输入框完美地居中显示
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('testing\n')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=5
+        )
+
 
 
 
