@@ -12,7 +12,7 @@ class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.maximize_window()
-        self.browser.implicitly_wait(30)
+        self.browser.implicitly_wait(8)
 
     def tearDown(self):
         self.browser.quit()
@@ -76,12 +76,12 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.quit()
         self.browser = webdriver.Firefox()
         self.browser.maximize_window()
-        self.browser.implicitly_wait(8)
+        self.browser.implicitly_wait(3)
 
         # 弗朗西斯访问首页
         # 页面中看不到伊迪丝的清单
         self.browser.get(self.live_server_url)
-        page_text = self.browser.find_elements_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('make a fly', page_text)
 
@@ -95,11 +95,11 @@ class NewVisitorTest(LiveServerTestCase):
         francis_head_url = self.browser.current_url
         with self.wait_for_page_load(timeout=10):
             francis_list_url = self.browser.current_url
-            self.assertRegex(francis_list_url, francis_head_url+'/lists/.+')
+            self.assertRegex(francis_list_url, francis_head_url+'lists/.+')
             self.assertNotEqual(francis_list_url, edith_list_url)
 
         # 这个页面还是没有伊迪丝的清单
-        page_text = self.browser.find_elements_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertIn('Buy milk', page_text)
 
