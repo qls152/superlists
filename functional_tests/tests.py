@@ -1,9 +1,13 @@
+import argparse
+import sys
 from django.test import LiveServerTestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from django.conf import settings
+
 import unittest
-import sys
+
 # 解决相应问题而添加的包
 from contextlib import contextmanager
 from selenium.webdriver.support.ui import WebDriverWait
@@ -13,9 +17,11 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
+
         for arg in sys.argv:
             if 'liveserver' in arg:
                 cls.server_url = 'http://' + arg.split('=')[1]
+                cls.live_server_url = ''
                 return
         super().setUpClass()
         cls.server_url = cls.live_server_url
@@ -51,7 +57,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 伊迪丝听说有一个很酷的在线待办事项应用
         # 她去看了这个应用的首页
-
         self.browser.get(self.server_url)
 
         # 她注意到网页的标题和头部都包含To-Do这个词
@@ -144,9 +149,5 @@ class NewVisitorTest(StaticLiveServerTestCase):
             272,
             delta=5
         )
-
-
-
-
 
 
