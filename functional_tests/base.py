@@ -2,8 +2,10 @@ import sys
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 
-
-import unittest
+# 解决相应问题而添加的包
+from contextlib import contextmanager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.expected_conditions import staleness_of
 
 
 class FunctionalTest(StaticLiveServerTestCase):
@@ -24,12 +26,20 @@ class FunctionalTest(StaticLiveServerTestCase):
             super().tearDownClass()
 
     def setUp(self):
+        #webdriver.PhantomJS(service_args=['--ignore-ssl-errors=true', '--ssl-protocol=TLSv1'])
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(30)
 
     def tearDown(self):
         self.browser.refresh()
         self.browser.quit()
+
+    @contextmanager
+    def wait_for_page_load(self, timeout=5):
+        old_page = self.browser.find_element_by_tag_name("html")
+        yield WebDriverWait(self.browser, timeout).until(
+            staleness_of(old_page)
+        )
 
     def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')

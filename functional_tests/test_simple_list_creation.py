@@ -1,21 +1,8 @@
 from .base import FunctionalTest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
-
-# 解决相应问题而添加的包
-from contextlib import contextmanager
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support.expected_conditions import staleness_of
-
 
 class NewVisitorTest(FunctionalTest):
-    @contextmanager
-    def wait_for_page_load(self, timeout=30):
-        old_page = self.browser.find_element_by_tag_name("html")
-        yield WebDriverWait(self.browser, timeout).until(
-            staleness_of(old_page)
-        )
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 伊迪丝听说有一个很酷的在线待办事项应用
