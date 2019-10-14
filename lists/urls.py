@@ -21,5 +21,5 @@ urlpatterns = [
 
     re_path('^(\d)/$', views.view_list),
     re_path('^new$', views.new_list),
-    re_path('^(\d)/add_item$', views.add_item),
+    # re_path('^(\d)/add_item$', views.add_item),
 ]
