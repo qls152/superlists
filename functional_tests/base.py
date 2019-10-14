@@ -26,7 +26,6 @@ class FunctionalTest(StaticLiveServerTestCase):
             super().tearDownClass()
 
     def setUp(self):
-        #webdriver.PhantomJS(service_args=['--ignore-ssl-errors=true', '--ssl-protocol=TLSv1'])
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(30)
 

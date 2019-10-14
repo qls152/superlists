@@ -30,7 +30,6 @@ class NewVisitorTest(FunctionalTest):
         # 待办事项表格中显示了“1: Buy peacock feathers”
         with self.wait_for_page_load(timeout=10):
             edith_list_url = self.browser.current_url
-            print(edith_list_url)
             self.check_for_row_in_list_table("1: Buy peacock feathers")
         self.assertRegex(edith_list_url, head_url+'lists/.+')
 
