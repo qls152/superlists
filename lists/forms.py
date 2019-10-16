@@ -1,5 +1,6 @@
 from django import forms
 from lists.models import Item
+from django.utils.html import escape
 
 EMPTY_LIST_ERROR = "You can't have an empty list item"
 

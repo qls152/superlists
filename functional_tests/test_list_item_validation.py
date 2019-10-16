@@ -27,10 +27,11 @@ class ItemValidationTest(FunctionalTest):
 
         # 她有点儿调皮，又提交了一个空待办事项
         key = self.get_item_input_box()
+        key.send_keys('\n')
         key.send_keys(Keys.ENTER)
         # 在清单页面她看到了一个类似的错误消息
-        with self.wait_for_page_load(timeout=10):
-            self.check_for_row_in_list_table('1: Buy milk')
+        #with self.wait_for_page_load(timeout=10):
+        self.check_for_row_in_list_table('1: Buy milk')
 
         error = self.browser.find_element_by_css_selector('.has-error')
         self.assertEqual(error.text, "You can't have an empty list item")
@@ -41,5 +42,5 @@ class ItemValidationTest(FunctionalTest):
         key.send_keys(Keys.ENTER)
         with self.wait_for_page_load(timeout=10):
             self.check_for_row_in_list_table('1: Buy milk')
-            self.check_for_row_in_list_table('3: Make tea')
+            self.check_for_row_in_list_table('2: Make tea')
 
