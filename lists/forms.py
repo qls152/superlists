@@ -21,4 +21,6 @@ class ItemForm(forms.models.ModelForm):
             'text': {'required': EMPTY_LIST_ERROR}
         }
 
-
+    def save(self, for_list,commit=True):
+        self.instance.list = for_list
+        return super().save()
