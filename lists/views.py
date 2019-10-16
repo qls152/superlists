@@ -14,7 +14,7 @@ def view_list(request, last_id):
 
     if request.method == 'POST':
         try:
-            item = Item.objects.create(text=request.POST['item_text'], list=list_)
+            item = Item.objects.create(text=request.POST['name'], list=list_)
             item.full_clean()
             item.save()
             return redirect(list_)
@@ -25,7 +25,7 @@ def view_list(request, last_id):
 
 def new_list(request):
     list_ = List.objects.create()
-    item = Item.objects.create(text=request.POST['item_text'], list= list_)
+    item = Item.objects.create(text=request.POST['name'], list= list_)
     try:
         item.full_clean()
         item.save()
@@ -35,9 +35,3 @@ def new_list(request):
         return render(request, 'home.html', {"error": error})
     return redirect(list_)
 
-'''
-def add_item(request, last_id):
-    list_ = List.objects.get(id= last_id)
-    Item.objects.create(text=request.POST['item_text'], list=list_)
-    return redirect('/lists/%d/' % (list_.id,))
-'''
